@@ -1,0 +1,6 @@
+name: LotusChat
+version: ${project.version}
+main: com.nygmatic.core.lotuschat.LotusChat
+api-version: 1.13
+authors: [Nygmatic]
+description: hi
