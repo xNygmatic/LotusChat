@@ -31,7 +31,7 @@ public class Chatter {
     }
 
     private boolean isNewPlayer() {
-        return DatabaseUtils.get(path + uuid) != null;
+        return DatabaseUtils.get(path) != null;
     }
 
     private void setupPlayer() {
