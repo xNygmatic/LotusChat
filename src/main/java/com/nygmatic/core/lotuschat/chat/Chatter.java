@@ -16,6 +16,7 @@ public class Chatter {
 
     private String path;
 
+
     public Chatter(Player player) {
         this.player = player;
         this.uuid = player.getUniqueId();

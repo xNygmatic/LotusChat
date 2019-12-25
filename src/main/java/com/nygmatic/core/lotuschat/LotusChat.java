@@ -5,20 +5,23 @@ import com.nygmatic.core.lotuschat.chat.ChatListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LotusChat extends JavaPlugin {
+
+    private static LotusChat instance;
+    private static ConversationFactory conversationFactory;
 
     // Configuration Serializable objects have to be registered *before* the plugin is loaded.
     static {
         ConfigurationSerialization.registerClass(Channel.class);
     }
 
-    private static LotusChat instance;
-
     @Override
     public void onEnable() {
         instance = this;
+        conversationFactory = new ConversationFactory(this);
         FileManager.setup();
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "LotusChat enabled!");
@@ -31,5 +34,9 @@ public final class LotusChat extends JavaPlugin {
 
     static LotusChat getInstance() {
         return instance;
+    }
+
+    public static ConversationFactory getConversationFactory() {
+        return conversationFactory;
     }
 }
