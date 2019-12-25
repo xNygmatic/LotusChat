@@ -27,18 +27,6 @@ public class Chatter {
         this.nameColor = ChatColor.valueOf(DatabaseUtils.get(path + ".name-color"));
     }
 
-    public static boolean isNewPlayer(Player player) {
-        return DatabaseUtils.get("players." + player.getUniqueId()) == null;
-    }
-
-    public static void setupPlayer(Player player, String firstName, String lastName) {
-        String path = "players." + player.getUniqueId();
-        DatabaseUtils.set(path + ".first-name", firstName);
-        DatabaseUtils.set(path + ".last-name", lastName);
-        DatabaseUtils.set(path + ".chat-color", ChatColor.WHITE.name());
-        DatabaseUtils.set(path + ".name-color", ChatColor.GRAY.name());
-    }
-
     public String getFirstName() {
         return firstName;
     }
