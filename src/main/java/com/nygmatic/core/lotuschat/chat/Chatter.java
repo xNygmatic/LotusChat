@@ -20,24 +20,20 @@ public class Chatter {
         this.player = player;
         this.uuid = player.getUniqueId();
         this.path = "players." + this.uuid;
-
-        if (isNewPlayer()) {
-            setupPlayer();
-        }
-
-        firstName = DatabaseUtils.get(path + ".first-name");
-        lastName = DatabaseUtils.get(path + ".last-name");
-        chatColor = ChatColor.valueOf(DatabaseUtils.get(path + ".chat-color"));
-        nameColor = ChatColor.valueOf(DatabaseUtils.get(path + ".name-color"));
+        this.firstName = DatabaseUtils.get(path + ".first-name");
+        this.lastName = DatabaseUtils.get(path + ".last-name");
+        this.chatColor = ChatColor.valueOf(DatabaseUtils.get(path + ".chat-color"));
+        this.nameColor = ChatColor.valueOf(DatabaseUtils.get(path + ".name-color"));
     }
 
-    private boolean isNewPlayer() {
-        return DatabaseUtils.get(path) == null;
+    public static boolean isNewPlayer(Player player) {
+        return DatabaseUtils.get("players." + player.getUniqueId()) == null;
     }
 
-    private void setupPlayer() {
-        DatabaseUtils.set(path + ".first-name", "John");
-        DatabaseUtils.set(path + ".last-name", "Smith");
+    public static void setupPlayer(Player player, String firstName, String lastName) {
+        String path = "players." + player.getUniqueId();
+        DatabaseUtils.set(path + ".first-name", firstName);
+        DatabaseUtils.set(path + ".last-name", lastName);
         DatabaseUtils.set(path + ".chat-color", ChatColor.WHITE.name());
         DatabaseUtils.set(path + ".name-color", ChatColor.GRAY.name());
     }
