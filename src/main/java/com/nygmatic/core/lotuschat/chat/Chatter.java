@@ -38,7 +38,7 @@ public class Chatter {
     private void setupPlayer() {
         DatabaseUtils.set(path + ".first-name", "John");
         DatabaseUtils.set(path + ".last-name", "Smith");
-        DatabaseUtils.set(path + ".chat-color", ChatColor.WHITE.name().toLowerCase());
+        DatabaseUtils.set(path + ".chat-color", ChatColor.WHITE.name());
         DatabaseUtils.set(path + ".name-color", ChatColor.GRAY.name());
     }
 
@@ -71,13 +71,13 @@ public class Chatter {
     }
 
     public void setChatColor(ChatColor color) {
-        DatabaseUtils.set(path + ".chat-color", color.toString());
+        DatabaseUtils.set(path + ".chat-color", color.name());
         FileManager.savePlayerData();
         chatColor = color;
     }
 
     public void setNameColor(ChatColor color) {
-        DatabaseUtils.set(path + ".name-color", color.toString());
+        DatabaseUtils.set(path + ".name-color", color.name());
         FileManager.savePlayerData();
         nameColor = color;
     }
