@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collections;
 
@@ -32,6 +33,11 @@ public class ChatListener implements Listener, ConversationAbandonedListener {
             player.beginConversation(conversation);
 
         } else LotusChat.getChatManager().addChatter(new Chatter(player));
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        LotusChat.getChatManager().removeChatter(event.getPlayer());
     }
 
     @Override

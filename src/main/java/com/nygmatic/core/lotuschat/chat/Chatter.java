@@ -43,6 +43,8 @@ public class Chatter {
         return nameColor;
     }
 
+    public Player getPlayer() { return player; }
+
     public void setFirstName(String name) {
         DatabaseUtils.set(path + ".first-name", name);
         FileManager.savePlayerData();

@@ -29,6 +29,10 @@ public class ChatManager {
     chatters.add(chatter);
   }
 
+  public void removeChatter(Player player) {
+    chatters.removeIf(chatter -> chatter.getPlayer().equals(player));
+  }
+
   public boolean isNewPlayer(Player player) {
     return DatabaseUtils.get("players." + player.getUniqueId()) == null;
   }
