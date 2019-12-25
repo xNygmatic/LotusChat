@@ -1,11 +1,18 @@
 package com.nygmatic.core.lotuschat;
 
+import com.nygmatic.core.lotuschat.chat.Channel;
 import com.nygmatic.core.lotuschat.chat.ChatListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LotusChat extends JavaPlugin {
+
+    // Configuration Serializable objects have to be registered *before* the plugin is loaded.
+    static {
+        ConfigurationSerialization.registerClass(Channel.class);
+    }
 
     private static LotusChat instance;
 
