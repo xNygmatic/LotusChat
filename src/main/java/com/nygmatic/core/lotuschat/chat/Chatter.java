@@ -47,25 +47,21 @@ public class Chatter {
 
     public void setFirstName(String name) {
         DatabaseUtils.set(path + ".first-name", name);
-        FileManager.savePlayerData();
         firstName = name;
     }
 
     public void setLastName(String name) {
         DatabaseUtils.set(path + ".last-name", name);
-        FileManager.savePlayerData();
         lastName = name;
     }
 
     public void setChatColor(ChatColor color) {
         DatabaseUtils.set(path + ".chat-color", color.name());
-        FileManager.savePlayerData();
         chatColor = color;
     }
 
     public void setNameColor(ChatColor color) {
         DatabaseUtils.set(path + ".name-color", color.name());
-        FileManager.savePlayerData();
         nameColor = color;
     }
 }
