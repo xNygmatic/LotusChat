@@ -22,6 +22,7 @@ public final class LotusChat extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         instance = this;
         conversationFactory = new ConversationFactory(this);
         chatManager = new ChatManager();
@@ -33,9 +34,10 @@ public final class LotusChat extends JavaPlugin {
     @Override
     public void onDisable() {
         FileManager.savePlayerData();
+        saveConfig();
     }
 
-    static LotusChat getInstance() {
+    public static LotusChat getInstance() {
         return instance;
     }
 

@@ -1,7 +1,6 @@
 package com.nygmatic.core.lotuschat.chat;
 
-import com.nygmatic.core.lotuschat.FileManager;
-import com.nygmatic.core.lotuschat.util.DatabaseUtils;
+import com.nygmatic.core.lotuschat.util.PlayerDataUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -16,15 +15,14 @@ public class Chatter {
 
     private String path;
 
-
     public Chatter(Player player) {
         this.player = player;
         this.uuid = player.getUniqueId();
         this.path = "players." + this.uuid;
-        this.firstName = DatabaseUtils.get(path + ".first-name");
-        this.lastName = DatabaseUtils.get(path + ".last-name");
-        this.chatColor = ChatColor.valueOf(DatabaseUtils.get(path + ".chat-color"));
-        this.nameColor = ChatColor.valueOf(DatabaseUtils.get(path + ".name-color"));
+        this.firstName = PlayerDataUtil.get(path + ".first-name");
+        this.lastName = PlayerDataUtil.get(path + ".last-name");
+        this.chatColor = ChatColor.valueOf(PlayerDataUtil.get(path + ".chat-color"));
+        this.nameColor = ChatColor.valueOf(PlayerDataUtil.get(path + ".name-color"));
     }
 
     public String getFirstName() {
@@ -43,25 +41,27 @@ public class Chatter {
         return nameColor;
     }
 
-    public Player getPlayer() { return player; }
+    public Player getPlayer() {
+        return player;
+    }
 
     public void setFirstName(String name) {
-        DatabaseUtils.set(path + ".first-name", name);
+        PlayerDataUtil.set(path + ".first-name", name);
         firstName = name;
     }
 
     public void setLastName(String name) {
-        DatabaseUtils.set(path + ".last-name", name);
+        PlayerDataUtil.set(path + ".last-name", name);
         lastName = name;
     }
 
     public void setChatColor(ChatColor color) {
-        DatabaseUtils.set(path + ".chat-color", color.name());
+        PlayerDataUtil.set(path + ".chat-color", color.name());
         chatColor = color;
     }
 
     public void setNameColor(ChatColor color) {
-        DatabaseUtils.set(path + ".name-color", color.name());
+        PlayerDataUtil.set(path + ".name-color", color.name());
         nameColor = color;
     }
 }

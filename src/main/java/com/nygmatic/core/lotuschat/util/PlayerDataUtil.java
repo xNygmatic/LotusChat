@@ -3,7 +3,7 @@ package com.nygmatic.core.lotuschat.util;
 import com.nygmatic.core.lotuschat.FileManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class DatabaseUtils {
+public class PlayerDataUtil {
 
     private static FileConfiguration playerData = FileManager.getPlayerData();
 

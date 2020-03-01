@@ -6,12 +6,74 @@ import org.bukkit.conversations.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
 
 public class ChatListener implements Listener, ConversationAbandonedListener {
+
+    private ChatManager chatManager = LotusChat.getChatManager();
+    private static final String FORMAT = "%s %s %s" + ChatColor.GRAY + ": %s";
+
+    @EventHandler
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
+
+        Player player = event.getPlayer();
+        Optional<Chatter> chatter = chatManager.getChatter(player);
+
+        if (!chatter.isPresent()) {
+            event.setCancelled(true);
+            System.out.println("Invalid chatter?"); //idk about this one chief lmfao, thinking maybe about new players
+            return;                                     //seeing if its gonna bug or something first then fix if need
+        }
+
+        char chatSymbol = event.getMessage().charAt(0);
+        Channel targetedChannel = chatManager.getChannel(chatSymbol);
+
+        if (!player.hasPermission(targetedChannel.getSendPermission())) {
+            if (player.hasPermission(chatManager.getLocal().getSendPermission())) {
+                targetedChannel = chatManager.getLocal();
+            } else {
+                event.setCancelled(true);
+                //TODO: Configurable message for this in le config.yml later
+                player.sendMessage(ChatColor.RED + "You do not have permission to chat here!");
+                return;
+            }
+        }
+
+        String firstName = chatter.get().getFirstName();
+        String lastName = chatter.get().getLastName();
+        ChatColor nameColor = chatter.get().getNameColor();
+        ChatColor chatColor = chatter.get().getChatColor();
+        String message = event.getMessage().replaceFirst(targetedChannel.getMessagePrefix(), "");
+        String channelPrefix = targetedChannel.getMessagePrefix();
+
+        Set<Player> recipients = event.getRecipients();
+        recipients.clear();
+
+        final Channel finalTargetedChannel = targetedChannel;
+        chatManager.getChatters().stream()
+                .filter(target -> {
+                    boolean inRadius = finalTargetedChannel.getRadius() == -1 || target.getPlayer().getLocation()
+                            .distanceSquared(player.getLocation()) <= Math.pow(finalTargetedChannel.getRadius(), 2);
+                    return inRadius && target.getPlayer().hasPermission(finalTargetedChannel.getReceivePermission());
+                })
+                .map(Chatter::getPlayer)
+                .forEach(recipients::add);
+
+        String formatted = String.format(FORMAT, channelPrefix, nameColor + firstName, lastName, chatColor + message);
+        event.setFormat(formatted);
+
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        LotusChat.getChatManager().removeChatter(event.getPlayer());
+    }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -33,11 +95,6 @@ public class ChatListener implements Listener, ConversationAbandonedListener {
             player.beginConversation(conversation);
 
         } else LotusChat.getChatManager().addChatter(new Chatter(player));
-    }
-
-    @EventHandler
-    public void onPlayerLeave(PlayerQuitEvent event) {
-        LotusChat.getChatManager().removeChatter(event.getPlayer());
     }
 
     @Override
@@ -92,6 +149,4 @@ public class ChatListener implements Listener, ConversationAbandonedListener {
 
         }
     }
-
-
 }

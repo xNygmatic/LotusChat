@@ -1,30 +1,35 @@
 package com.nygmatic.core.lotuschat.chat;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Channel implements ConfigurationSerializable {
 
-  private final List<String> permissions; // Only players with these permissions can use this chat
+  private final String sendPermission;
+  private final String receivePermission;
   private final String msgPrefix; // The String that will come in front of every message
   private final char prefix; // Character the player must use to access this chat
+  private final int radius;
 
   // We'll add this one in case you want to make a command for creating channels.
-  public Channel(char prefix, String msgPrefix, String... permissions) {
+  public Channel(char prefix, String msgPrefix, String sendPermission, String receivePermission, int radius) {
     this.prefix = prefix;
     this.msgPrefix = msgPrefix;
-    this.permissions = Arrays.asList(permissions);
+    this.sendPermission = sendPermission;
+    this.receivePermission = receivePermission;
+    this.radius = radius;
   }
 
   // This constructor is required for deserialization
   public Channel(Map<String, Object> map) {
     this.prefix = (char) map.get("prefix");
     this.msgPrefix = (String) map.get("message_prefix");
-    this.permissions = (List<String>) map.get("permissions");
+    this.sendPermission = (String) map.get("send_permission");
+    this.receivePermission = (String) map.get("receive_permission");
+    this.radius = (int) map.get("radius");
   }
 
   @Override
@@ -36,33 +41,41 @@ public class Channel implements ConfigurationSerializable {
     // These have to match the keys and value types in the deserialization constructor.
     map.put("prefix", this.prefix);
     map.put("message_prefix", msgPrefix);
-    map.put("permissions", permissions);
+    map.put("send_permission", sendPermission);
+    map.put("receive_permission", receivePermission);
+    map.put("radius", radius);
 
     /*
      * Example YAML Output:
-     *
      * random_key:
      *    prefix: '@'
      *    message_prefix: "[Lame Channel]"
-     *    permissions:
-     *      - "random.permission.is.lame"
-     *      - "lots.of.lame.permissions.gross"
-     *
+     *    send_permission: "permission.gross"
+     *    receive_permission: "another.perm.gross"
+     *    radius: -1
      */
 
     return map;
   }
 
-  public List<String> getPermissions() {
-    return permissions;
+  public String getSendPermission() {
+    return sendPermission;
+  }
+
+  public String getReceivePermission() {
+    return receivePermission;
   }
 
   public String getMessagePrefix() {
-    return msgPrefix;
+    return ChatColor.translateAlternateColorCodes('&', msgPrefix);
   }
 
   public char getPrefix() {
     return prefix;
+  }
+
+  public int getRadius() {
+    return radius;
   }
 
 }
