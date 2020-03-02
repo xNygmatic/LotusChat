@@ -66,4 +66,8 @@ public class ChatManager implements Listener {
   public Channel getLocal() {
     return local;
   }
+
+  public void addChannel(Channel channel) {
+    channels.add(channel);
+  }
 }

@@ -4,3 +4,8 @@ main: com.nygmatic.core.lotuschat.LotusChat
 api-version: 1.13
 authors: [Nygmatic]
 description: Scuffed chat plugin made by yours truly, dat boi
+
+commands:
+  createchannel:
+    description: Command to create new channels
+    usage: /<command> <symbol> <prefix> <send_permission> <receive_permission> <radius>"

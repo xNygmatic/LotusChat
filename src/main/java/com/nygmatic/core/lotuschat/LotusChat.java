@@ -3,6 +3,7 @@ package com.nygmatic.core.lotuschat;
 import com.nygmatic.core.lotuschat.chat.Channel;
 import com.nygmatic.core.lotuschat.chat.ChatListener;
 import com.nygmatic.core.lotuschat.chat.ChatManager;
+import com.nygmatic.core.lotuschat.commands.ChannelCreateCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -26,14 +27,18 @@ public final class LotusChat extends JavaPlugin {
         instance = this;
         conversationFactory = new ConversationFactory(this);
         chatManager = new ChatManager();
+
         FileManager.setup();
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
+        getCommand("createchannel").setExecutor(new ChannelCreateCommand());
+
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "LotusChat enabled!");
     }
 
     @Override
     public void onDisable() {
         FileManager.savePlayerData();
+        getConfig().set("channels", chatManager.getChannels());
         saveConfig();
     }
 

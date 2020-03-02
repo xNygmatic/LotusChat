@@ -25,7 +25,7 @@ public class Channel implements ConfigurationSerializable {
 
   // This constructor is required for deserialization
   public Channel(Map<String, Object> map) {
-    this.prefix = (char) map.get("prefix");
+    this.prefix = ((String) map.get("prefix")).charAt(0);
     this.msgPrefix = (String) map.get("message_prefix");
     this.sendPermission = (String) map.get("send_permission");
     this.receivePermission = (String) map.get("receive_permission");

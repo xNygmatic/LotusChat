@@ -1,8 +1,10 @@
-default_channel: =: com.nygmatic.core.lotuschat.chat.Channel
-  prefix: "&8[&dLocal&8]&r "
-  radius: 50
+default_channel:
+  ==: com.nygmatic.core.lotuschat.chat.Channel
+  prefix: "/u200C"
+  message_prefix: "&8[&dLocal&8]&r"
   send_permission: "lotuschat.local.send"
   receive_permission: "lotuschat.local.receive"
+  radius: 50
 
 channels: []
 

@@ -13,11 +13,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class ChatListener implements Listener, ConversationAbandonedListener {
 
     private ChatManager chatManager = LotusChat.getChatManager();
-    private static final String FORMAT = "%s %s %s" + ChatColor.GRAY + ": %s";
+    private static final String FORMAT = "%s %s %s" + ChatColor.DARK_GRAY + ": %s";
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
@@ -27,8 +28,7 @@ public class ChatListener implements Listener, ConversationAbandonedListener {
 
         if (!chatter.isPresent()) {
             event.setCancelled(true);
-            System.out.println("Invalid chatter?"); //idk about this one chief lmfao, thinking maybe about new players
-            return;                                     //seeing if its gonna bug or something first then fix if need
+            return;
         }
 
         char chatSymbol = event.getMessage().charAt(0);
@@ -49,7 +49,7 @@ public class ChatListener implements Listener, ConversationAbandonedListener {
         String lastName = chatter.get().getLastName();
         ChatColor nameColor = chatter.get().getNameColor();
         ChatColor chatColor = chatter.get().getChatColor();
-        String message = event.getMessage().replaceFirst(targetedChannel.getMessagePrefix(), "");
+        String message = event.getMessage().replaceFirst(Pattern.quote(Character.toString(targetedChannel.getPrefix())), "");
         String channelPrefix = targetedChannel.getMessagePrefix();
 
         Set<Player> recipients = event.getRecipients();
