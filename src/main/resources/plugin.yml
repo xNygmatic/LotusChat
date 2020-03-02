@@ -8,4 +8,7 @@ description: Scuffed chat plugin made by yours truly, dat boi
 commands:
   createchannel:
     description: Command to create new channels
-    usage: /<command> <symbol> <prefix> <send_permission> <receive_permission> <radius>"
+    usage: /<command> <symbol> <prefix> <send_permission> <receive_permission> <radius>
+  namechange:
+    description: Command to change players' first or last name
+    usage: /<command> <first/last> <new_name> (player_username)

@@ -4,6 +4,7 @@ import com.nygmatic.core.lotuschat.chat.Channel;
 import com.nygmatic.core.lotuschat.chat.ChatListener;
 import com.nygmatic.core.lotuschat.chat.ChatManager;
 import com.nygmatic.core.lotuschat.commands.ChannelCreateCommand;
+import com.nygmatic.core.lotuschat.commands.NameChangeCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -31,6 +32,7 @@ public final class LotusChat extends JavaPlugin {
         FileManager.setup();
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         getCommand("createchannel").setExecutor(new ChannelCreateCommand());
+        getCommand("namechange").setExecutor(new NameChangeCommand());
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "LotusChat enabled!");
     }
